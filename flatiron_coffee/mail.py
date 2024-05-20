@@ -37,7 +37,7 @@ class Email:
         if subject is None:
             subject = self.config.get("email_subject", "Flatiron coffee")
         if self.config["debug"]:
-            emails = ["foreman.mackey@gmail.com"]
+            emails = ["rblackwell@flatironinstitute.org"]
             subject = "[TEST] " + subject
         url = "https://api.mailgun.net/v3/{0}/messages".format(
             self.config["mailgun_domain"]
@@ -54,16 +54,18 @@ class Email:
     def send_message_smtp(self, emails, message, subject=None):
         if subject is None:
             subject = self.config.get("email_subject", "Flatiron coffee")
+
         if self.config["debug"]:
             subject = "[TEST] " + subject
-
-        print(f"Sending email to {', '.join(emails)}...")
+            emails = ["rblackwell@flatironinstitute.org"]
 
         msg = MIMEText(message, "plain")
         msg["Subject"] = subject
         msg["From"] = self.config["sender_email"]
         msg["To"] = ",".join(emails)
         msg["Reply-To"] = ",".join(emails)
+
+        print(f"Sending email to {', '.join(emails)}...")
 
         for _ in range(3):
             try:
